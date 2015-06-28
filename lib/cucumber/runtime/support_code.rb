@@ -40,13 +40,11 @@ module Cucumber
 
       include Constantize
 
+      attr_reader :ruby
       def initialize(user_interface, configuration={})
         @configuration = Configuration.parse(configuration)
         @runtime_facade = Runtime::ForProgrammingLanguages.new(self, user_interface)
         @ruby = Cucumber::RbSupport::RbLanguage.new(@runtime_facade, @configuration)
-
-        @unsupported_programming_languages = []
-        @programming_languages = [@ruby]
       end
 
       def configure(new_configuration)
@@ -77,14 +75,6 @@ module Cucumber
         rescue Undefined => exception
           raise UndefinedDynamicStep, step_name
         end
-      end
-
-      # Loads and registers programming language implementation.
-      # Instances are cached, so calling with the same argument
-      # twice will return the same instance.
-      #
-      def load_programming_language(ext)
-        return @ruby if ext == "rb"
       end
 
       def load_files!(files)
