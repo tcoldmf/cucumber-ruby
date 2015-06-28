@@ -79,7 +79,7 @@ module Cucumber
         files = require_dirs.map do |path|
           path = path.gsub(/\\/, '/') # In case we're on windows. Globs don't work with backslashes.
           path = path.gsub(/\/$/, '') # Strip trailing slash.
-          File.directory?(path) ? Dir["#{path}/**/*"] : path
+          File.directory?(path) ? Dir["#{path}/**/*.rb"] : path
         end.flatten.uniq
         remove_excluded_files_from(files)
         files.reject! {|f| !File.file?(f)}
