@@ -3,6 +3,7 @@ require 'cucumber/runtime/for_programming_languages'
 require 'cucumber/runtime/step_hooks'
 require 'cucumber/runtime/before_hooks'
 require 'cucumber/runtime/after_hooks'
+require 'cucumber/gherkin/steps_parser'
 
 module Cucumber
 
@@ -17,22 +18,24 @@ module Cucumber
           @support_code = support_code
         end
 
-        def uri(uri)
+        def steps(steps)
+          steps.each { |step| step(step) }
         end
 
         def step(step)
           location = Core::Ast::Location.of_caller
-          @support_code.invoke_dynamic_step(step.name, multiline_arg(step, location))
-        end
-
-        def eof
+          @support_code.invoke_dynamic_step(step[:text], multiline_arg(step, location))
         end
 
         def multiline_arg(step, location)
-          if argument = step.doc_string
-            MultilineArgument.doc_string(argument.value, argument.content_type, location.on_line(argument.line_range))
+          if argument = step[:argument]
+            if argument[:type] == :DocString
+              MultilineArgument.doc_string(argument[:content], argument[:content_type], location)
+            else
+              MultilineArgument::DataTable.from(argument[:rows].map { |row| row[:cells].map { |cell| cell[:value] } })
+            end
           else
-            MultilineArgument.from(step.rows, location)
+            MultilineArgument.from(nil)
           end
         end
       end
@@ -58,9 +61,8 @@ module Cucumber
       #     Then I should not be thirsty
       #   })
       def invoke_dynamic_steps(steps_text, i18n, file_colon_line)
-        file, line = file_colon_line.split(':')
-        parser = Gherkin::Parser::Parser.new(StepInvoker.new(self), true, 'steps', false, i18n.iso_code)
-        parser.parse(steps_text, file, line.to_i)
+        parser = Cucumber::Gherkin::StepsParser.new(StepInvoker.new(self), i18n.iso_code)
+        parser.parse(steps_text)
       end
 
       # @api private
