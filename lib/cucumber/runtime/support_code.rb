@@ -110,14 +110,10 @@ module Cucumber
 
       def find_match(test_step)
         begin
-          match = step_match(test_step.name)
+          step_match(test_step.name)
         rescue Cucumber::Undefined
-          return NoStepMatch.new(test_step.source.last, test_step.name)
+          nil
         end
-        if @configuration.dry_run?
-          return SkippingStepMatch.new
-        end
-        match
       end
 
       def find_after_step_hooks(test_case)

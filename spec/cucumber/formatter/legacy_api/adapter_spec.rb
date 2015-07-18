@@ -1541,7 +1541,7 @@ module Cucumber
 
           it 'prints the exception within the step' do
             filters = [
-              Filters::ActivateSteps.new(SimpleStepDefinitions.new),
+              Filters::ActivateSteps.new(SimpleStepDefinitions.new, runtime.configuration),
               Filters::ApplyAfterStepHooks.new(FailingAfterStepHook.new),
               AddBeforeAndAfterHooks.new
             ]
@@ -1587,7 +1587,7 @@ module Cucumber
 
           it 'prints the exception after the scenario name' do
             filters = [
-              Filters::ActivateSteps.new(SimpleStepDefinitions.new),
+              Filters::ActivateSteps.new(SimpleStepDefinitions.new, runtime.configuration),
               Filters::ApplyBeforeHooks.new(FailingBeforeHook.new),
               AddBeforeAndAfterHooks.new
             ]
@@ -1625,7 +1625,7 @@ module Cucumber
 
           it 'prints the exception after the background name' do
             filters = [
-              Filters::ActivateSteps.new(SimpleStepDefinitions.new),
+              Filters::ActivateSteps.new(SimpleStepDefinitions.new, runtime.configuration),
               Filters::ApplyBeforeHooks.new(FailingBeforeHook.new),
               AddBeforeAndAfterHooks.new
             ]
@@ -1677,7 +1677,7 @@ module Cucumber
 
           it 'prints the exception before the examples table row' do
             filters = [
-              Filters::ActivateSteps.new(SimpleStepDefinitions.new),
+              Filters::ActivateSteps.new(SimpleStepDefinitions.new, runtime.configuration),
               Filters::ApplyBeforeHooks.new(FailingBeforeHook.new),
               AddBeforeAndAfterHooks.new
             ]
@@ -1750,7 +1750,7 @@ module Cucumber
 
           it 'prints the exception after the scenario name' do
             filters = [
-              Filters::ActivateSteps.new(SimpleStepDefinitions.new),
+              Filters::ActivateSteps.new(SimpleStepDefinitions.new, runtime.configuration),
               Filters::ApplyBeforeHooks.new(FailingAndPassingBeforeHooks.new),
               AddBeforeAndAfterHooks.new
             ]
@@ -1798,7 +1798,7 @@ module Cucumber
 
           it 'prints the exception after the steps' do
             filters = [
-              Filters::ActivateSteps.new(SimpleStepDefinitions.new),
+              Filters::ActivateSteps.new(SimpleStepDefinitions.new, runtime.configuration),
               Filters::ApplyAfterHooks.new(FailingAfterHook.new),
               AddBeforeAndAfterHooks.new
             ]
@@ -1836,7 +1836,7 @@ module Cucumber
 
           it 'prints the exception after the examples table row' do
             filters = [
-              Filters::ActivateSteps.new(SimpleStepDefinitions.new),
+              Filters::ActivateSteps.new(SimpleStepDefinitions.new, runtime.configuration),
               Filters::ApplyAfterHooks.new(FailingAfterHook.new),
               AddBeforeAndAfterHooks.new
             ]
@@ -1907,7 +1907,7 @@ module Cucumber
 
           it 'prints the exception after the steps' do
             filters = [
-              Filters::ActivateSteps.new(SimpleStepDefinitions.new),
+              Filters::ActivateSteps.new(SimpleStepDefinitions.new, runtime.configuration),
               Filters::ApplyAfterHooks.new(FailingThenPassingAfterHooks.new),
               AddBeforeAndAfterHooks.new
             ]
@@ -1947,7 +1947,7 @@ module Cucumber
         context 'with an exception in an after hook but no steps' do
           it 'prints the exception after the scenario name' do
             filters = [
-              Filters::ActivateSteps.new(SimpleStepDefinitions.new),
+              Filters::ActivateSteps.new(SimpleStepDefinitions.new, runtime.configuration),
               Filters::ApplyAfterHooks.new(FailingAfterHook.new),
               AddBeforeAndAfterHooks.new
             ]
@@ -1987,7 +1987,7 @@ module Cucumber
 
           it 'prints the exception after the scenario name' do
             filters = [
-              Filters::ActivateSteps.new(SimpleStepDefinitions.new),
+              Filters::ActivateSteps.new(SimpleStepDefinitions.new, runtime.configuration),
               Filters::ApplyAroundHooks.new(FailingAroundHookBeforeRunningTestCase.new),
               AddBeforeAndAfterHooks.new
             ]
@@ -2027,7 +2027,7 @@ module Cucumber
 
           it 'prints the exception after the scenario name' do
             filters = [
-              Filters::ActivateSteps.new(SimpleStepDefinitions.new),
+              Filters::ActivateSteps.new(SimpleStepDefinitions.new, runtime.configuration),
               Filters::ApplyAroundHooks.new(FailingAroundHookAfterRunningTestCase.new),
               AddBeforeAndAfterHooks.new
             ]
@@ -2141,7 +2141,7 @@ module Cucumber
 
       def default_filters
         [
-          Filters::ActivateSteps.new(SimpleStepDefinitions.new),
+          Filters::ActivateSteps.new(SimpleStepDefinitions.new, runtime.configuration),
           AddBeforeAndAfterHooks.new
         ]
       end
