@@ -114,8 +114,11 @@ module Cucumber
             status = result.to_sym
             exception = get_backtrace_object(result)
             @builder.failure(:message => "#{status} #{name}", :type => status) do
-              @builder.cdata! (output+"DEBUGGGING!!!ls fea")
+              @builder.cdata! (output)
               @builder.cdata!(format_exception(exception)) if exception
+              @builder.cdata! "----"
+              @builder.cdata! "<br />"
+              @builder.cdata! strip_control_chars(@interceptedout.buffer.join)
             end
             @failures += 1
           end
