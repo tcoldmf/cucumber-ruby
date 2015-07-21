@@ -33,7 +33,7 @@ module Cucumber
         def find_match(test_step)
           match = @step_definitions.find_match(test_step)
           return NoStepMatch.new(test_step.source.last, test_step.name) unless match
-          return SkippingStepMatch.new if @configuration.dry_run?
+          return SkippingStepMatch.new(match) if @configuration.dry_run?
           match
         end
       end

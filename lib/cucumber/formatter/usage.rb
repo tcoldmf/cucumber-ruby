@@ -21,7 +21,7 @@ module Cucumber
       def after_test_step(test_step, result)
         return if HookQueryVisitor.new(test_step).hook?
 
-        step_match = @runtime.step_match(test_step.source.last.name)
+        step_match = test_step.data(:step_match)
         step_definition = step_match.step_definition
         stepdef_key = StepDefKey.new(step_definition.regexp_source, step_definition.file_colon_line)
         unless @stepdef_to_match[stepdef_key].map { |key| key[:file_colon_line] }.include? test_step.location

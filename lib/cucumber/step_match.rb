@@ -22,7 +22,7 @@ module Cucumber
     end
 
     def activate(test_step)
-      test_step.with_action(@step_definition.file_colon_line) do
+      test_step.with_data(step_match: self).with_action(@step_definition.file_colon_line) do
         invoke(MultilineArgument.from_core(test_step.source.last.multiline_arg))
       end
     end
@@ -96,8 +96,12 @@ module Cucumber
   end
 
   class SkippingStepMatch
+    def initialize(step_match)
+      @step_match = step_match
+    end
+
     def activate(test_step)
-      return test_step.with_action { raise Core::Test::Result::Skipped.new }
+      return test_step.with_data(step_match: @step_match).with_action { raise Core::Test::Result::Skipped.new }
     end
   end
 
